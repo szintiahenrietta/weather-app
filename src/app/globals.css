@@ -5,11 +5,11 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* Shadcn mappings */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-sans: var(--font-lato);
+  --font-heading: var(--font-lato);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -46,75 +46,116 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Weather App brand colors */
+  --color-w-accent: #2EA8A8;
+  --color-w-accent-hover: #258F8F;
+  --color-w-accent-pressed: #1D7A7A;
+  --color-w-accent-subtle: #E6F7F7;
+
+  /* Warm gray palette */
+  --color-w-gray-50: #FAF9F7;
+  --color-w-gray-100: #F5F3F0;
+  --color-w-gray-200: #E8E5E0;
+  --color-w-gray-300: #D4CFC8;
+  --color-w-gray-400: #A8A29E;
+  --color-w-gray-500: #78716C;
+  --color-w-gray-600: #57534E;
+  --color-w-gray-700: #44403C;
+  --color-w-gray-800: #292524;
+  --color-w-gray-900: #1C1917;
+  --color-w-gray-950: #0F0E0D;
+
+  /* Semantic colors */
+  --color-w-success: #38A169;
+  --color-w-warning: #D69E2E;
+  --color-w-error: #E53E3E;
+  --color-w-info: #3182CE;
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --background: #FAF9F7;
+  --foreground: #292524;
+  --card: rgba(255, 255, 255, 0.25);
+  --card-foreground: #292524;
+  --popover: rgba(255, 255, 255, 0.85);
+  --popover-foreground: #292524;
+  --primary: #2EA8A8;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F5F3F0;
+  --secondary-foreground: #292524;
+  --muted: #F5F3F0;
+  --muted-foreground: #78716C;
+  --accent: #E6F7F7;
+  --accent-foreground: #1D7A7A;
+  --destructive: #E53E3E;
+  --border: rgba(255, 255, 255, 0.3);
+  --input: rgba(255, 255, 255, 0.2);
+  --ring: rgba(46, 168, 168, 0.4);
+  --chart-1: #2EA8A8;
+  --chart-2: #F6A06B;
+  --chart-3: #87CEEB;
+  --chart-4: #D69E2E;
+  --chart-5: #38A169;
+  --radius: 1rem;
+  --sidebar: #FAF9F7;
+  --sidebar-foreground: #292524;
+  --sidebar-primary: #2EA8A8;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #E6F7F7;
+  --sidebar-accent-foreground: #1D7A7A;
+  --sidebar-border: #E8E5E0;
+  --sidebar-ring: rgba(46, 168, 168, 0.4);
+
+  /* Weather text tokens (overridden by dark gradients) */
+  --w-text-primary: #292524;
+  --w-text-secondary: #78716C;
+  --w-text-muted: #A8A29E;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: #0F0E0D;
+  --foreground: #F5F3F0;
+  --card: rgba(255, 255, 255, 0.12);
+  --card-foreground: #F5F3F0;
+  --popover: rgba(30, 30, 28, 0.95);
+  --popover-foreground: #F5F3F0;
+  --primary: #2EA8A8;
+  --primary-foreground: #FFFFFF;
+  --secondary: #292524;
+  --secondary-foreground: #F5F3F0;
+  --muted: #292524;
+  --muted-foreground: #A8A29E;
+  --accent: rgba(46, 168, 168, 0.15);
+  --accent-foreground: #2EA8A8;
+  --destructive: #E53E3E;
+  --border: rgba(255, 255, 255, 0.15);
+  --input: rgba(255, 255, 255, 0.12);
+  --ring: rgba(46, 168, 168, 0.4);
+  --chart-1: #2EA8A8;
+  --chart-2: #F6A06B;
+  --chart-3: #87CEEB;
+  --chart-4: #D69E2E;
+  --chart-5: #38A169;
+  --sidebar: #1C1917;
+  --sidebar-foreground: #F5F3F0;
+  --sidebar-primary: #2EA8A8;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: rgba(46, 168, 168, 0.15);
+  --sidebar-accent-foreground: #2EA8A8;
+  --sidebar-border: rgba(255, 255, 255, 0.15);
+  --sidebar-ring: rgba(46, 168, 168, 0.4);
+
+  --w-text-primary: #F5F3F0;
+  --w-text-secondary: #A8A29E;
+  --w-text-muted: #78716C;
+}
+
+/* Dark gradient text override — for dark gradients even in light mode */
+.dark-gradient-active {
+  --w-text-primary: #F5F3F0;
+  --w-text-secondary: #D4CFC8;
+  --w-text-muted: #A8A29E;
 }
 
 @layer base {
@@ -126,5 +167,90 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+/* ============================================
+   Glass Card System
+   ============================================ */
+.glass-card {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.dark .glass-card {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.glass-card--elevated {
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.dark .glass-card--elevated {
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================
+   Gradient Background Animations
+   ============================================ */
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.weather-gradient {
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease-in-out infinite;
+  transition: background 1.5s ease-in-out;
+}
+
+/* ============================================
+   Skeleton Shimmer
+   ============================================ */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 25%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.1) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s linear infinite;
+}
+
+/* ============================================
+   Reduced Motion
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .weather-gradient {
+    animation: none;
   }
 }
