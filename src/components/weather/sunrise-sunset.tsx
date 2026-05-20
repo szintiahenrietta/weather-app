@@ -160,7 +160,7 @@ export function SunriseSunset() {
 
         {/* Local time note & golden hour */}
         <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 mt-2">
-          <p className={`text-xs ${mutedClass}`}>
+          <p className={`text-xs font-medium ${secondaryClass}`}>
             Local time in {cityDisplayName ?? current.name} {nowLocal}
           </p>
           {goldenHourLabel && (
