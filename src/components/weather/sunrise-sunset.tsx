@@ -4,7 +4,7 @@ import { Sunrise, Sunset } from "lucide-react";
 import { useWeather } from "@/components/providers";
 
 export function SunriseSunset() {
-  const { current, isDarkGradient } = useWeather();
+  const { current, cityDisplayName, isDarkGradient } = useWeather();
 
   if (!current) return null;
 
@@ -161,7 +161,7 @@ export function SunriseSunset() {
         {/* Local time note & golden hour */}
         <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 mt-2">
           <p className={`text-xs ${mutedClass}`}>
-            Local time in {current.name} {nowLocal}
+            Local time in {cityDisplayName ?? current.name} {nowLocal}
           </p>
           {goldenHourLabel && (
             <p className={`text-xs font-medium ${secondaryClass}`}>
