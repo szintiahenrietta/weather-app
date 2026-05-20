@@ -96,11 +96,14 @@ interface OpenMeteoGeocodingResponse {
   results?: OpenMeteoGeocodingResult[];
 }
 
-async function searchOpenMeteo(query: string): Promise<OWMGeocodingResult[]> {
+/** Returns null when the network call failed; [] means the provider returned no matches. */
+async function searchOpenMeteo(
+  query: string
+): Promise<OWMGeocodingResult[] | null> {
   try {
     const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=8&language=en&format=json`;
     const response = await fetch(url);
-    if (!response.ok) return [];
+    if (!response.ok) return null;
     const json: OpenMeteoGeocodingResponse = await response.json();
     return (json.results ?? []).map((r) => ({
       name: r.name,
@@ -110,18 +113,28 @@ async function searchOpenMeteo(query: string): Promise<OWMGeocodingResult[]> {
       state: r.admin1,
     }));
   } catch {
-    return [];
+    return null;
   }
 }
 
-async function searchOWM(query: string): Promise<OWMGeocodingResult[]> {
+/** Returns null when the network call failed; [] means the provider returned no matches. */
+async function searchOWM(
+  query: string
+): Promise<OWMGeocodingResult[] | null> {
   try {
     const url = `${BASE_URL}/geo/1.0/direct?q=${encodeURIComponent(query)}&limit=5&appid=${API_KEY}`;
     const response = await fetch(url);
-    if (!response.ok) return [];
+    if (!response.ok) return null;
     return (await response.json()) as OWMGeocodingResult[];
   } catch {
-    return [];
+    return null;
+  }
+}
+
+export class SearchNetworkError extends Error {
+  constructor() {
+    super("Couldn't reach the city search service. Check your connection and try again.");
+    this.name = "SearchNetworkError";
   }
 }
 
@@ -143,10 +156,16 @@ export async function searchCities(
     searchOWM(trimmed),
   ]);
 
+  // Both providers failed to respond → surface as a network error so the UI
+  // can distinguish "no results" from "couldn't connect".
+  if (openMeteoResults === null && owmResults === null) {
+    throw new SearchNetworkError();
+  }
+
   // Merge, deduplicating by approximate coordinates + name.
   const seen = new Set<string>();
   const merged: OWMGeocodingResult[] = [];
-  for (const city of [...openMeteoResults, ...owmResults]) {
+  for (const city of [...(openMeteoResults ?? []), ...(owmResults ?? [])]) {
     const key = `${city.name.toLowerCase()}-${city.lat.toFixed(2)}-${city.lon.toFixed(2)}`;
     if (seen.has(key)) continue;
     seen.add(key);

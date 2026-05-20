@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Search, X, Clock } from "lucide-react";
-import { searchCities } from "@/lib/api";
+import { searchCities, SearchNetworkError } from "@/lib/api";
 import type { OWMGeocodingResult, RecentCity } from "@/types/weather";
 import { useWeather, useSettings } from "@/components/providers";
 
@@ -17,6 +17,7 @@ export function CitySearch({ onCitySelect }: Props) {
   const [activeIndex, setActiveIndex] = useState(-1);
   const [searching, setSearching] = useState(false);
   const [noResults, setNoResults] = useState(false);
+  const [networkError, setNetworkError] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
@@ -30,19 +31,27 @@ export function CitySearch({ onCitySelect }: Props) {
       setResults([]);
       setIsOpen(false);
       setNoResults(false);
+      setNetworkError(false);
       return;
     }
     setSearching(true);
     setNoResults(false);
+    setNetworkError(false);
     try {
       const data = await searchCities(q);
       setResults(data);
       setIsOpen(true);
       setNoResults(data.length === 0);
       setActiveIndex(-1);
-    } catch {
+    } catch (err) {
       setResults([]);
-      setNoResults(true);
+      setIsOpen(true);
+      if (err instanceof SearchNetworkError) {
+        setNetworkError(true);
+        setNoResults(false);
+      } else {
+        setNoResults(true);
+      }
     } finally {
       setSearching(false);
     }
@@ -162,6 +171,7 @@ export function CitySearch({ onCitySelect }: Props) {
               setResults([]);
               setIsOpen(false);
               setNoResults(false);
+              setNetworkError(false);
               inputRef.current?.focus();
             }}
             className={`flex-shrink-0 p-1 rounded-full hover:bg-white/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2EA8A8] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent ${isDarkGradient ? "text-[#D4CFC8]" : "text-[#78716C]"}`}
@@ -182,7 +192,18 @@ export function CitySearch({ onCitySelect }: Props) {
       {isOpen && (
         <div className="absolute top-full mt-1 w-full z-50">
           <div className="rounded-xl bg-white/85 dark:bg-[#292524]/95 backdrop-blur-[20px] shadow-[0_8px_32px_rgba(0,0,0,0.15)] border border-white/30 overflow-hidden">
-            {noResults ? (
+            {networkError ? (
+              <div className="px-4 py-3 text-sm text-[#78716C] flex items-center justify-between gap-3">
+                <span>Couldn&apos;t reach the city search service. Check your connection.</span>
+                <button
+                  onClick={() => search(query)}
+                  className="flex-shrink-0 px-2 py-1 rounded-md text-xs font-medium text-[#2EA8A8] hover:bg-[#E6F7F7] dark:hover:bg-[rgba(46,168,168,0.15)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2EA8A8]"
+                  aria-label="Retry search"
+                >
+                  Retry
+                </button>
+              </div>
+            ) : noResults ? (
               <div className="px-4 py-3 text-sm text-[#78716C]">
                 No cities found — check spelling or try a different name.
               </div>
